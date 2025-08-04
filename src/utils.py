@@ -1,13 +1,18 @@
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
-import pandas as pd
+# entrenar_modelo.py
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import pickle
 
-# load the .env file variables
-load_dotenv()
+# Datos de ejemplo (X: número, y: su cuadrado)
+X = np.array([[i] for i in range(0, 101)])
+y = X.flatten() ** 2
 
+# Entrenamiento del modelo
+modelo = LinearRegression()
+modelo.fit(X, y)
 
-def db_connect():
-    import os
-    engine = create_engine(os.getenv('DATABASE_URL'))
-    engine.connect()
-    return engine
+# Guardar el modelo entrenado en un archivo .pkl
+with open("modelo.pkl", "wb") as f:
+    pickle.dump(modelo, f)
+
+print("✅ Modelo entrenado y guardado como 'modelo.pkl'")
